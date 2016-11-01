@@ -41,12 +41,12 @@
 	
 	<!-- 类型别名 -->
 	<typeAliases>
-		<typeAlias alias="Page" type="com.zmlejia.ljlife.api.common.persistence.Page" /><!--分页  -->
+		<typeAlias alias="Page" type="cm.inv.com.crawler.common.persistence.Page" /><!--分页  -->
 	</typeAliases>
 	
 	<!-- 插件配置 -->
 	<plugins>
-		<plugin interceptor="com.zmlejia.ljlife.api.common.persistence.interceptor.PaginationInterceptor" />
+		<plugin interceptor="cm.inv.com.crawler.common.persistence.interceptor.PaginationInterceptor" />
     </plugins>
 	
 </configuration>

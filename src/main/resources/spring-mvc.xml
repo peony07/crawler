@@ -8,10 +8,10 @@
     <description>Spring MVC Configuration</description>
     
     <!-- 加载配置属性文件 -->
-	<context:property-placeholder ignore-unresolvable="true" location="classpath:ljlife.properties" />
+	<context:property-placeholder ignore-unresolvable="true" location="classpath:crawler.properties" />
 	
 	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->
-	<context:component-scan base-package="com.zmlejia.ljlife" use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
+	<context:component-scan base-package="cm.inv.com.crawler" use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
     
@@ -29,7 +29,7 @@
                 </property>
                 <property name="prettyPrint" value="false"/>
                 <property name="objectMapper">  
-                    <bean class="com.zmlejia.ljlife.api.common.mapper.JsonMapper"></bean>
+                    <bean class="cm.inv.com.crawler.common.mapper.JsonMapper"></bean>
                 </property> 
             </bean>
             <!-- 使用XML格式输出数据 -->
@@ -41,7 +41,7 @@
 				        </property>
 				        <property name="annotatedClasses">
 				            <list>
-				                <value>com.zmlejia.ljlife.api.common.persistence.BaseEntity</value>
+				                <value>cm.inv.com.crawler.common.persistence.BaseEntity</value>
 				            </list>
 				        </property>
 				    </bean>
@@ -83,13 +83,13 @@
         <mvc:interceptor>
             <mvc:mapping path="${userPath}/st/**" />
             <!-- 业主端接口调用登录态拦截 -->
-            <bean class="com.zmlejia.ljlife.api.module.interceptor.api.AuthorizationInterceptor" />
+            <bean class="cm.inv.com.crawler.module.interceptor.api.AuthorizationInterceptor" />
         </mvc:interceptor>
 
         <mvc:interceptor>
             <mvc:mapping path="/*/**" />
             <!-- 接口调用日志记录 -->
-            <bean class="com.zmlejia.ljlife.api.module.interceptor.api.InterfaceLogInterceptor" />
+            <bean class="cm.inv.com.crawler.module.interceptor.api.InterfaceLogInterceptor" />
         </mvc:interceptor>
 
 

@@ -12,7 +12,7 @@
 		<param-value>classpath*:/spring-context*.xml</param-value>
 	</context-param>
 	<listener>
-		<listener-class>com.zmlejia.ljlife.api.module.listener.WebContextListener</listener-class>
+		<listener-class>cm.inv.com.crawler.module.listener.WebContextListener</listener-class>
 	</listener>
 	<listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
@@ -66,7 +66,7 @@
 	<!-- Validate code -->
 	<servlet>
 		<servlet-name>ValidateCodeServlet</servlet-name>
-		<servlet-class>com.zmlejia.ljlife.api.common.servlet.ValidateCodeServlet</servlet-class>
+		<servlet-class>cm.inv.com.crawler.common.servlet.ValidateCodeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ValidateCodeServlet</servlet-name>
