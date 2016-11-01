@@ -7,8 +7,8 @@
 .zip
 .rar
 .idea
-*.iml
-*/.settings/*
-/indexes/*
-/target/*
-*/src/main/webapp/WEB-INF/classes/*
+.iml
+/.settings/
+/indexes/
+/src/main/webapp/WEB-INF/classes/
+/target
