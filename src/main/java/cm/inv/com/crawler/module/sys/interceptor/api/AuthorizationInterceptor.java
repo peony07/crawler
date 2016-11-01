@@ -1,4 +1,4 @@
-package cm.inv.com.crawler.module.interceptor.api;
+package cm.inv.com.crawler.module.sys.interceptor.api;
 
 import cm.inv.com.crawler.common.mapper.JsonMapper;
 import cm.inv.com.crawler.common.service.BaseService;

@@ -83,13 +83,13 @@
         <mvc:interceptor>
             <mvc:mapping path="${userPath}/st/**" />
             <!-- 业主端接口调用登录态拦截 -->
-            <bean class="cm.inv.com.crawler.module.interceptor.api.AuthorizationInterceptor" />
+            <bean class="cm.inv.com.crawler.module.sys.interceptor.api.AuthorizationInterceptor" />
         </mvc:interceptor>
 
         <mvc:interceptor>
             <mvc:mapping path="/*/**" />
             <!-- 接口调用日志记录 -->
-            <bean class="cm.inv.com.crawler.module.interceptor.api.InterfaceLogInterceptor" />
+            <bean class="cm.inv.com.crawler.module.sys.interceptor.api.InterfaceLogInterceptor" />
         </mvc:interceptor>
 
 

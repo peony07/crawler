@@ -12,7 +12,7 @@
 		<param-value>classpath*:/spring-context*.xml</param-value>
 	</context-param>
 	<listener>
-		<listener-class>cm.inv.com.crawler.module.listener.WebContextListener</listener-class>
+		<listener-class>cm.inv.com.crawler.module.sys.listener.WebContextListener</listener-class>
 	</listener>
 	<listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  

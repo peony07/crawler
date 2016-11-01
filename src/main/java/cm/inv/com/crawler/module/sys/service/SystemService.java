@@ -1,4 +1,4 @@
-package cm.inv.com.crawler.module.service;
+package cm.inv.com.crawler.module.sys.service;
 
 import cm.inv.com.crawler.common.config.Global;
 
