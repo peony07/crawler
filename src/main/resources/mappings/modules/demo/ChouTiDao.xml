@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zmlejia.ljlife.api.module.demo.dao.ChouTiDao">
+    
+	<select id="findList" resultType="ChouTi">
+		SELECT 
+			a.*
+		FROM CRA_CHOUTI a
+		ORDER BY a.CREATE_TIME DESC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO CRA_CHOUTI(
+			ID,
+            COME_FROM,
+            TITLE,
+            SUMMARY,
+            CONTENT,
+            EXT_URL,
+            PUBLISH_TIME,
+            HEART,
+            COMMENT,
+            CREATE_TIME
+		) VALUES (
+			#{id}, 
+			#{comeFrom},
+			#{title},
+			#{summary},
+			#{content},
+			#{extUrl},
+			#{publishTime},
+			#{heart},
+			#{comment},
+			#{createTime}
+		)
+	</insert>
+
+</mapper>

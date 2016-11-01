@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zmlejia.ljlife.api.module.log.dao.LogDao">
+    
+	<select id="findList" resultType="Log">
+		SELECT 
+			a.*
+		FROM SYS_LOG a
+
+		WHERE a.CREATE_TIME BETWEEN #{beginDate} AND #{endDate}
+		<if test="title != null and title != ''">
+			AND a.TITLE LIKE 
+					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>
+		</if>
+		<if test="createId != null and createId != null and createId != ''">
+			AND a.CREATE_ID = #{createId}
+		</if>
+		<if test="requestUri != null and requestUri != ''">
+			AND a.REQUEST_URI LIKE 
+					<if test="dbName == 'oracle'">'%'||#{requestUri}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{requestUri}+'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{requestUri}, '%')</if>
+		</if>
+		<if test="exception != null and exception != ''">
+			AND a.TYPE = #{TYPE_EXCEPTION}
+		</if>
+		${sqlMap.dsf}
+		ORDER BY a.CREATE_TIME DESC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO SYS_LOG(
+			ID, 
+			TYPE, 
+			TITLE,
+			CREATE_ID, 
+			CREATE_TIME, 
+			REMOTE_ADDR, 
+			USER_AGENT, 
+			REQUEST_URI, 
+			METHOD, 
+			PARAMS, 
+			EXCEPTION,
+
+			APP_USER_ID,
+			APP_ID,
+			DEVICE_TYPE,
+			DEVICE_MODEL,
+			REMOTE_IP,
+			SYSTEM_VERSION,
+			MAC_ADDRESS,
+			IMEI,
+			RESP_TIME,
+			LOCATION,
+			NETTYPE,
+			DEVOPERATORS,
+			SESSION_ID,
+			COOKIE_ID,
+			EQUIPMENT_MODEL,
+			APP_VERSION
+			
+			
+			
+		) VALUES (
+			#{id}, 
+			#{type}, 
+			#{title}, 
+			#{createId},
+			#{createTime}, 
+			#{remoteAddr}, 
+			#{userAgent}, 
+			#{requestUri}, 
+			#{method}, 
+			#{params}, 
+			#{exception},
+			#{appUserId},
+			#{appId},
+			#{deviceType},
+			#{deviceModel},
+			#{remoteIp},
+			#{systemVersion},
+			#{macAddress},
+			#{imei},
+			#{respTime},
+			#{location},
+			#{nettype},
+			#{devoperators},
+			#{sessionId},
+			#{cookieId},
+			#{equipmentModel},
+			#{appVersion}
+		)
+	</insert>
+
+    <select id="findApiLogList" resultType="Log">
+        SELECT a.*
+        FROM SYS_LOG a
+        WHERE a.CREATE_TIME BETWEEN #{beginDate} AND #{endDate}
+        <if test="title != null and title != ''">
+            AND a.TITLE LIKE
+            <if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+            <if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>
+        </if>
+        <if test="createId != null and createId != null and createId != ''">
+            AND a.CREATE_ID = #{id}
+        </if>
+        <if test="requestUri != null and requestUri != ''">
+            AND a.REQUEST_URI LIKE
+            <if test="dbName == 'oracle'">'%'||#{requestUri}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{requestUri}+'%'</if>
+            <if test="dbName == 'mysql'">CONCAT('%', #{requestUri}, '%')</if>
+        </if>
+        <if test="exception != null and exception != ''">
+            AND a.TYPE = #{TYPE_EXCEPTION}
+        </if>
+
+        ORDER BY a.CREATE_TIME DESC
+    </select>
+
+</mapper>
