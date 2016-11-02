@@ -63,7 +63,7 @@
         <quartz.version>1.8.6</quartz.version>
         <org.aspectj.version>1.7.4</org.aspectj.version>
         <cglib.version>3.1</cglib.version>
-        <redis.clients.version>2.5.1</redis.clients.version>
+        <redis.clients.version>2.7.3</redis.clients.version>
         <taglibs.standard.version>1.1.2</taglibs.standard.version>
         <servlet-api.version>2.5</servlet-api.version>
         <jstl.version>1.2</jstl.version>

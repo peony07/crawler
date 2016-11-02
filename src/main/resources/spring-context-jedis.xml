@@ -22,4 +22,38 @@
         <constructor-arg index="2" value="${redis.port}" type="int" />
     </bean>
 
+    <!-- jedis configuration starts -->
+    <bean id="config" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+        <property name="maxTotal" value="20"></property>
+        <property name="maxIdle" value="20"></property>
+        <property name="minIdle" value="1"></property>
+        <property name="maxWaitMillis" value="15000"></property>
+        <property name="lifo" value="true"></property>
+        <property name="blockWhenExhausted" value="true"></property>
+        <property name="testOnBorrow" value="true"></property>
+        <property name="testOnReturn" value="true"></property>
+        <property name="testWhileIdle" value="true"></property>
+        <property name="timeBetweenEvictionRunsMillis" value="30000"></property>
+    </bean>
+
+    <bean id="jedisCluster" class="cm.inv.com.crawler.common.utils.redis.JedisClusterFactory">
+        <property name="addressConfig">
+            <value>classpath:redis-servers.properties</value>
+        </property>
+        <property name="addressKeyPrefix" value="address" />
+        <property name="timeout" value="300000" />
+        <property name="maxRedirections" value="6" />
+        <property name="config" ref="config" />
+    </bean>
+
+
+
+    <bean id="jedisClusterHelper" class="cm.inv.com.crawler.common.utils.redis.JedisClusterHelper">
+        <constructor-arg index="0" name="jedisCluster" type="redis.clients.jedis.JedisCluster" ref="jedisCluster" />
+        <property name="timeOut" value="1800" />
+    </bean>
+
+
+    <!-- jedis configuration ends -->
+
 </beans>

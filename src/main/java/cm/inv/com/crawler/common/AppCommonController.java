@@ -1,7 +1,11 @@
 package cm.inv.com.crawler.common;
 
-import cm.inv.com.crawler.module.base.entity.RetApp;
+import cm.inv.com.crawler.common.utils.DateUtils;
+import cm.inv.com.crawler.common.utils.JedisUtils;
+import cm.inv.com.crawler.common.utils.StringUtils;
+import cm.inv.com.crawler.common.utils.redis.JedisClusterHelper;
 import cm.inv.com.crawler.common.web.BaseController;
+import cm.inv.com.crawler.module.base.entity.RetApp;
 import cm.inv.com.crawler.module.demo.chouti.CrtChouTi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,9 @@ public class AppCommonController extends BaseController {
     @Autowired
     private CrtChouTi crtChouTi;
 
+    @Autowired
+    private JedisClusterHelper jedisHelper;
+
     @RequestMapping(value = "/test/notify", produces = {"application/json"}, method = RequestMethod.POST)
     public void notify(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("****************** alipay callback notify *******************");
@@ -29,6 +36,22 @@ public class AppCommonController extends BaseController {
             String paidAmount = getParam(request, "paidAmount", "");
             String tradeStatus = getParam(request, "tradeStatus", "");
             String sign = getParam(request, "sign", "");
+
+            //redis单机测试
+            String redisClustervalue=JedisUtils.get("redisClusterKey_1");
+            if(StringUtils.isEmpty(redisClustervalue)){
+                JedisUtils.set("redisClusterKey_1","redisClustervalue_"+ DateUtils.getDate("yyyyMMddHHmmss"),0);
+            }else{
+                logger.info(redisClustervalue);
+            }
+
+            //redis 集群测试
+            redisClustervalue=jedisHelper.get("redisClusterKey_1");
+            if(StringUtils.isEmpty(redisClustervalue)){
+                jedisHelper.saveOrUpdate("redisClusterKey_1","redisClustervalue_"+ DateUtils.getDate("yyyyMMddHHmmss"));
+            }else{
+                logger.info(redisClustervalue);
+            }
 
             retApp.setStatus(OK);
             retApp.setMessage("成功！");
