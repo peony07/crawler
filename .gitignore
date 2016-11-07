@@ -12,3 +12,6 @@
 /src/main/webapp/WEB-INF/classes/
 /target
 /*.iml
+*rebel-remote.xml
+*rebel.xml
+*rebel.xml.bak
