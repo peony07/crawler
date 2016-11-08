@@ -139,7 +139,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>,
 	 * Gets the DatabaseIdProvider
 	 * 
 	 * @since 1.1.0
-	 * @return
+	 * @return databaseIdProvider
 	 */
 	public DatabaseIdProvider getDatabaseIdProvider() {
 		return databaseIdProvider;

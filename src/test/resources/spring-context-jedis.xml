@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+       default-lazy-init="true">
+
+    <description>Jedis Configuration</description>
+
+    <!-- 加载配置属性文件 -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:crawler.properties" />
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="300" /> <!-- 最大能够保持idel状态的对象数  -->
+        <property name="maxTotal" value="60000" /> <!-- 最大分配的对象数 -->
+        <property name="testOnBorrow" value="true" /> <!-- 当调用borrow Object方法时，是否进行有效性检查 -->
+    </bean>
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig" />
+        <constructor-arg index="1" value="${redis.host}" />
+        <constructor-arg index="2" value="${redis.port}" type="int" />
+    </bean>
+
+    <!-- jedis configuration starts -->
+    <bean id="config" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+        <property name="maxTotal" value="20"></property>
+        <property name="maxIdle" value="20"></property>
+        <property name="minIdle" value="1"></property>
+        <property name="maxWaitMillis" value="15000"></property>
+        <property name="lifo" value="true"></property>
+        <property name="blockWhenExhausted" value="true"></property>
+        <property name="testOnBorrow" value="true"></property>
+        <property name="testOnReturn" value="true"></property>
+        <property name="testWhileIdle" value="true"></property>
+        <property name="timeBetweenEvictionRunsMillis" value="30000"></property>
+    </bean>
+
+    <bean id="jedisCluster" class="cm.inv.com.crawler.common.utils.redis.JedisClusterFactory">
+        <property name="addressConfig">
+            <value>classpath:redis-servers.properties</value>
+        </property>
+        <property name="addressKeyPrefix" value="address" />
+        <property name="timeout" value="300000" />
+        <property name="maxRedirections" value="6" />
+        <property name="config" ref="config" />
+    </bean>
+
+
+
+    <bean id="jedisClusterHelper" class="cm.inv.com.crawler.common.utils.redis.JedisClusterHelper">
+        <constructor-arg index="0" name="jedisCluster" type="redis.clients.jedis.JedisCluster" ref="jedisCluster" />
+        <property name="timeOut" value="1800" />
+    </bean>
+
+
+    <!-- jedis configuration ends -->
+
+</beans>

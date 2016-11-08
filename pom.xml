@@ -86,115 +86,26 @@
 
     <!-- 设定主仓库，按设定顺序进行查找。 -->
     <repositories>
-
         <!-- 如有Nexus私服, 取消注释并指向正确的服务器地址.
         <repository>
             <id>nexus-repos</id>
             <name>Team Nexus Repository</name>
             <url>http://192.168.11.36:8888/nexus/content/groups/public</url>
         </repository> -->
-
-        <repository>
-            <id>oschina-repos</id>
-            <name>Oschina Releases</name>
-            <url>http://maven.oschina.net/content/groups/public</url>
-        </repository>
-
-        <repository>
-            <id>java-repos</id>
-            <name>Java Repository</name>
-            <url>http://download.java.net/maven/2/</url>
-        </repository>
-
-        <repository>
-            <id>springsource-repos</id>
-            <name>SpringSource Repository</name>
-            <url>http://repo.spring.io/release/</url>
-        </repository>
-
-        <repository>
-            <id>central-repos</id>
-            <name>Central Repository</name>
-            <url>http://repo.maven.apache.org/maven2</url>
-        </repository>
-
-        <repository>
-            <id>central-repos2</id>
-            <name>Central Repository 2</name>
-            <url>http://repo1.maven.org/maven2/</url>
-        </repository>
-
-        <repository>
-            <id>activiti-repos</id>
-            <name>Activiti Repository</name>
-            <url>https://maven.alfresco.com/nexus/content/groups/public</url>
-        </repository>
-
-        <repository>
-            <id>activiti-repos2</id>
-            <name>Activiti Repository 2</name>
-            <url>https://app.camunda.com/nexus/content/groups/public</url>
-        </repository>
-
-        <repository>
-            <id>thinkgem-repos</id>
-            <name>ThinkGem Repository</name>
-            <url>http://git.oschina.net/thinkgem/repos/raw/master</url>
-        </repository>
-
-        <repository>
-            <id>thinkgem-repos2</id>
-            <name>ThinkGem Repository 2</name>
-            <url>https://raw.github.com/thinkgem/repository/master</url>
-        </repository>
-
-        <repository>
-            <id>oss-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </snapshots>
-        </repository>
-
-
     </repositories>
 
     <!-- 设定插件仓库 -->
     <pluginRepositories>
-
         <!-- 如有Nexus私服, 取消注释并指向正确的服务器地址.
         <pluginRepository>
             <id>nexus-repos</id>
             <name>Team Nexus Repository</name>
             <url>http://192.168.11.36:8888/nexus/content/groups/public</url>
         </pluginRepository> -->
-
-        <pluginRepository>
-            <id>oschina-repos</id>
-            <name>Oschina Releases</name>
-            <url>http://maven.oschina.net/content/groups/public</url>
-        </pluginRepository>
-
     </pluginRepositories>
 
     <!-- 依赖项定义 -->
 	<dependencies>
-
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-core</artifactId>
-            <version>0.5.4-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-extension</artifactId>
-            <version>0.5.4-SNAPSHOT</version>
-        </dependency>
 
         <!-- json -->
         <dependency>
@@ -647,6 +558,30 @@
             <version>1.2</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+            <version>0.5.4-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
+            <version>0.5.4-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
 	<profiles>
@@ -690,6 +625,7 @@
 		</profile>
 	</profiles>
 
+    <!-- 构建 -->
     <build>
         <resources>
             <resource>
@@ -705,11 +641,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.6.0</version>
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
-                    <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
             <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
@@ -749,7 +684,58 @@
                 <version>2.6</version>
             </plugin>
 
+            <!-- javadoc插件
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+
+            <!-- 单测 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <excludes>
+                    </excludes>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
+
+
+    <developers>
+        <developer>
+            <name>zhangtao</name>
+            <id>peony</id>
+            <email>zhangtao107@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
 
 </project>
