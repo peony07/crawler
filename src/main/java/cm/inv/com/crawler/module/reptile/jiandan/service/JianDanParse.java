@@ -1,7 +1,8 @@
-package cm.inv.com.crawler.module.reptile.jiandan;
+package cm.inv.com.crawler.module.reptile.jiandan.service;
 
+import cm.inv.com.crawler.module.reptile.jiandan.entity.JianDanImage;
 import cm.inv.com.crawler.module.reptile.mztu.SaveImageListPipeline;
-import cm.inv.com.crawler.module.reptile.Proxy.ProxyFilePipeline;
+import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -15,8 +16,8 @@ import java.util.List;
 /**
  * Created by zhangtao107@126.com on 2016/9/21.
  */
-
-public class JianDan implements PageProcessor ,AfterExtractor {
+@Service
+public class JianDanParse implements PageProcessor ,AfterExtractor {
 
     private List<JianDanImage> jianDanImageList;
 
@@ -48,17 +49,17 @@ public class JianDan implements PageProcessor ,AfterExtractor {
             jidanDanImage.setTotalNum(new Integer(jidanDanImage.getSupport()) + new Integer(jidanDanImage.getUnsupport()) + new Integer(jidanDanImage.getDsThreadCount()));
 
             if(new Integer(jidanDanImage.getSupport())<20){
-                jidanDanImage.setSecondCategory("渣渣");
+                jidanDanImage.setSecondCategory("点赞20");
             }else if(new Integer(jidanDanImage.getSupport())<100){
-                jidanDanImage.setSecondCategory("清秀");
+                jidanDanImage.setSecondCategory("点赞100");
             }else if(new Integer(jidanDanImage.getSupport())<200){
-                jidanDanImage.setSecondCategory("漂亮");
+                jidanDanImage.setSecondCategory("点赞200");
             }else if(new Integer(jidanDanImage.getSupport())<300){
-                jidanDanImage.setSecondCategory("性感");
+                jidanDanImage.setSecondCategory("点赞300");
             }else if(new Integer(jidanDanImage.getSupport())<500){
-                jidanDanImage.setSecondCategory("女神");
+                jidanDanImage.setSecondCategory("点赞500");
             }else{
-                jidanDanImage.setSecondCategory("不可能");
+                jidanDanImage.setSecondCategory("点赞超过500");
             }
             jianDanImageList.add(jidanDanImage);
         }
@@ -67,25 +68,26 @@ public class JianDan implements PageProcessor ,AfterExtractor {
 
     @Override
     public Site getSite() {
-        List<String[]> proxyPoolList =new ProxyFilePipeline().getProxyPool();
+        //List<String[]> proxyPoolList =new ProxyFilePipeline().getProxyPool();
         if (site == null) {
             site=Site.me()
                     .setDomain("jandan.net")
                     .setCharset("UTF-8")
-                    .setSleepTime(10000)
-                    .setTimeOut(10000)
+                    .setSleepTime(5000)
+                    .setTimeOut(5000)
                     .setUserAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36")
                     .setRetryTimes(3)
-                    .setHttpProxyPool(proxyPoolList,false);
+                    //.setHttpProxyPool(proxyPoolList,false)
+            ;
         }
         return site;
     }
 
-    public static void main(String[] args) {
-        Spider.create(new JianDan())
-                .addUrl("http://jandan.net/ooxx/page-900#comments")
+    public static void start() {
+        Spider.create(new JianDanParse())
+                .addUrl("http://jandan.net/ooxx/page-2205#comments")
                 .addPipeline(new SaveImageListPipeline())
-                .thread(100)
+                .thread(1)
                 //.scheduler(new RedisScheduler("127.0.0.1"))
                 .run();
     }

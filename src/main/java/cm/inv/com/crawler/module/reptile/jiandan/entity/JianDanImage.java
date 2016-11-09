@@ -1,4 +1,4 @@
-package cm.inv.com.crawler.module.reptile.jiandan;
+package cm.inv.com.crawler.module.reptile.jiandan.entity;
 
 
 import cm.inv.com.crawler.module.reptile.util.BaseImageBean;
