@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 public class SaveImagePipeline<T extends BaseImageBean> implements PageModelPipeline<T> {
 
     //创建一个可重用固定线程数的线程池
-   ExecutorService pool = Executors.newFixedThreadPool(100);
+   ExecutorService pool = Executors.newFixedThreadPool(1000);
 
     /**
      * 抓取图片存放目录
@@ -27,7 +27,7 @@ public class SaveImagePipeline<T extends BaseImageBean> implements PageModelPipe
     /**
      * 链接超时
      */
-    private int timeOut = 1000 * 60 * 60;
+    private int timeOut = 1000 * 200;
 
 
     @Override

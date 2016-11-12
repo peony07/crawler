@@ -11,12 +11,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -138,8 +140,7 @@ public class CommonUtil {
 				}
 			}
 		} catch (Exception e) {
-		    log.info(uri);
-			e.printStackTrace();
+		    log.error(uri,e);
 		} finally {
 			client.getConnectionManager().shutdown();
 		}
@@ -177,7 +178,49 @@ public class CommonUtil {
 			//log.info("该文件已经存在! [" + filePath + "]");
 			return "";
 		}
-		BufferedOutputStream out = null;
+
+        OutputStream os =null;
+        InputStream is =null;
+        try {
+            // 构造URL
+            URL url = new URL(picURL);
+            // 打开连接
+            URLConnection con = url.openConnection();
+            //设置请求超时为5s
+            con.setConnectTimeout(TIME_OUT);
+            // 输入流
+            is = con.getInputStream();
+
+            // 1K的数据缓冲
+            byte[] bs = new byte[2048];
+            // 读取到的数据长度
+            int len;
+            // 输出的文件流
+
+            os = new FileOutputStream(filePath);
+
+            // 开始读取
+            while ((len = is.read(bs)) != -1) {
+                os.write(bs, 0, len);
+            }
+            // 完毕，关闭所有链接
+            os.close();
+            is.close();
+            if(file!=null&&file.exists()&&file.length()/1024<30){
+                log.info("Delete Too Limit File Success! [" + filePath + "]");
+                file.delete();
+            }else {
+                log.info("New File Success! [" + filePath + "]");
+            }
+            file=null;
+        }catch (Exception e){
+            log.error("下载失败：",e);
+        }finally {
+            if (os != null)  os.close();
+            if (is != null)  is.close();
+        }
+
+/*		BufferedOutputStream out = null;
 		byte[] bit = CommonUtil.getByte(picURL, TIME_OUT);
 		if (bit.length > 0 && bit.length >= 10000) {
 			try {
@@ -189,7 +232,7 @@ public class CommonUtil {
 				if (out != null)
 					out.close();
 			}
-		}
+		}*/
 		return fileName;
 	}
 

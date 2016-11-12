@@ -1,5 +1,6 @@
 package cm.inv.com.crawler.module.reptile.jiandan.service;
 
+import cm.inv.com.crawler.common.config.Global;
 import cm.inv.com.crawler.common.utils.StringUtils;
 import cm.inv.com.crawler.module.reptile.jiandan.entity.JianDanImage;
 import cm.inv.com.crawler.module.reptile.mztu.SaveImageListPipeline;
@@ -9,6 +10,7 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.scheduler.RedisScheduler;
 import us.codecraft.webmagic.selector.Html;
 
 import java.util.ArrayList;
@@ -83,7 +85,7 @@ public class JianDanParse implements PageProcessor ,AfterExtractor {
                     .setSleepTime(5000)
                     .setTimeOut(10000)
                     .setUserAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36")
-                    .setRetryTimes(3)
+                    .setRetryTimes(2)
                     //.setHttpProxyPool(proxyPoolList,false)
             ;
         }
@@ -95,7 +97,7 @@ public class JianDanParse implements PageProcessor ,AfterExtractor {
                 .addUrl("http://jandan.net/ooxx")
                 .addPipeline(new SaveImageListPipeline())
                 .thread(1)
-                //.scheduler(new RedisScheduler("127.0.0.1"))
+                .scheduler(new RedisScheduler(Global.getConfig("redis.host")))
                 .run();
     }
 
