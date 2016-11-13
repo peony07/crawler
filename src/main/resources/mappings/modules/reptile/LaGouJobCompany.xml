@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cm.inv.com.crawler.module.reptile.lagou.dao.LaGouJobCompanyDao">
+
+
+    <select id="get" resultType="LaGouJobCompany">
+        SELECT
+        a.*
+        FROM LAGOU_JOB_COMPANY a
+        where a.ID=#{a.id}
+    </select>
+
+	<select id="findList" resultType="LaGouJobCompany">
+		SELECT 
+			a.*
+		FROM LAGOU_JOB_COMPANY a
+		ORDER BY a.CREATE_TIME DESC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO LAGOU_JOB_COMPANY(
+			ID,
+            COMPANY_SHORT_NAME,
+            COMPANY_FULL_NAME,
+            COMPANY_CODE,
+            JOB_NUM,
+            PROMPT_TREATMENT_RATE,
+            TREATMENT_DAYS,
+            INTERVIEW_EVALUATION_NUM,
+            LAST_LOGIN,
+            FINANCING,
+            COMPANY_SIZE,
+            CITY_NAME,
+            ADDRESS,
+            INTRODUCTION,
+            HOME_PAGE,
+            LOGO,
+            SLOGAN,
+            MAIN_BUSSINESS,
+            CREATE_ID,
+            CREATE_TIME,
+            UPDATE_ID,
+            UPDATE_TIME
+		) VALUES (
+			#{id}, 
+			#{companyShortName},
+            #{companyFullName},
+            #{companyCode},
+            #{jobNum},
+            #{promptTreatmentRate},
+            #{treatmentDays},
+            #{interviewEvaluationNum},
+            #{lastLogin},
+            #{financing},
+            #{companySize},
+            #{cityName},
+            #{address},
+            #{introduction},
+            #{homePage},
+            #{logo},
+            #{slogan},
+            #{mainBussiness},
+            #{createId},
+			#{createTime},
+            #{updateId},
+			#{updateTime}
+		)
+	</insert>
+
+    <delete id="delete">
+        delete from LAGOU_JOB_COMPANY where id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from LAGOU_JOB_COMPANY
+    </delete>
+
+</mapper>

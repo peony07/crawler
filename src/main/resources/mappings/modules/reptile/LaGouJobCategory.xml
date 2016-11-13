@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cm.inv.com.crawler.module.reptile.lagou.dao.LaGouJobCategoryDao">
+
+
+    <select id="get" resultType="LaGouJobCategory">
+        SELECT
+        a.*
+        FROM LAGOU_JOB_CATEGORY a
+        where a.ID=#{a.id}
+    </select>
+
+	<select id="findList" resultType="LaGouJobCategory">
+		SELECT 
+			a.*
+		FROM LAGOU_JOB_CATEGORY a
+		ORDER BY a.CREATE_TIME DESC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO LAGOU_JOB_CATEGORY(
+			ID,
+            LARGE_TYPE_NAME,
+            MIDDLE_TYPE_ID,
+            MIDDLE_TYPE_NAME,
+            MIDDLE_TYPE_ENNAME,
+            SMALL_TYPE_ID,
+            SMALL_TYPE_NAME,
+            SMALL_TYPE_ENNAME,
+            SEARCH_URL,
+            CREATE_ID,
+            CREATE_TIME,
+            UPDATE_ID,
+            UPDATE_TIME
+		) VALUES (
+			#{id}, 
+			#{largeTypeName},
+            #{middleTypeId},
+            #{middleTypeName},
+            #{middleTypeEnName},
+            #{smallTypeId},
+            #{smallTypeName},
+            #{smallTypeEnName},
+            #{searchUrl},
+            #{createId},
+			#{createTime},
+            #{updateId},
+			#{updateTime}
+		)
+	</insert>
+
+    <delete id="delete">
+        delete from LAGOU_JOB_CATEGORY where id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from LAGOU_JOB_CATEGORY
+    </delete>
+
+</mapper>

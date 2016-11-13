@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cm.inv.com.crawler.module.reptile.lagou.dao.LaGouJobInfoDao">
+
+
+    <select id="get" resultType="LaGouJobInfo">
+        SELECT
+        a.*
+        FROM LAGOU_JOB_INFO a
+        where a.ID=#{a.id}
+    </select>
+
+	<select id="findList" resultType="LaGouJobInfo">
+		SELECT 
+			a.*
+		FROM LAGOU_JOB_INFO a
+		ORDER BY a.CREATE_TIME DESC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO LAGOU_JOB_INFO(
+			ID,
+            JOB_CODE,
+            JOB_CATEGORY_ID,
+            JOB_COMPANY_ID,
+            TITLE,
+            MONTHLY_PAY,
+            CITY_NAME,
+            SENIORITY,
+            EDUCATION,
+            NATURE,
+            PUBLISH_TIME,
+            OFFICE_ADDRESS,
+            ADVANTAGE,
+            CREATE_ID,
+            CREATE_TIME,
+            UPDATE_ID,
+            UPDATE_TIME
+		) VALUES (
+			#{id}, 
+			#{jobCode},
+            #{jobCategoryId},
+            #{jobCompanyId},
+            #{title},
+            #{monthlyPay},
+            #{cityName},
+            #{seniority},
+            #{education},
+            #{nature},
+            #{publishTime},
+            #{officeAddress},
+            #{advantage},
+            #{createId},
+			#{createTime},
+            #{updateId},
+			#{updateTime}
+		)
+	</insert>
+
+    <delete id="delete">
+        delete from LAGOU_JOB_INFO where id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from LAGOU_JOB_INFO
+    </delete>
+
+</mapper>

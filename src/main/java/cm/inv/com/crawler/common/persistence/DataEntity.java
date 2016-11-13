@@ -24,6 +24,8 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	protected String delFlag; 	// 删除标记（0：正常；1：删除；2：审核）
 	protected String token;	//user token
     protected boolean readonly ;//是否只读
+    protected String createId;
+    protected String updateId;
 	
 	public DataEntity() {
 		super();
@@ -107,5 +109,21 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     public void setReadonly(boolean readonly){
         this.readonly=readonly;
+    }
+
+    public String getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(String createId) {
+        this.createId = createId;
+    }
+
+    public String getUpdateId() {
+        return updateId;
+    }
+
+    public void setUpdateId(String updateId) {
+        this.updateId = updateId;
     }
 }

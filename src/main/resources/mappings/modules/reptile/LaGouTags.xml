@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cm.inv.com.crawler.module.reptile.lagou.dao.LaGouTagsDao">
+
+
+    <select id="get" resultType="LaGouTags">
+        SELECT
+        a.*
+        FROM LAGOU_TAGS a
+        where a.ID=#{a.id}
+    </select>
+
+	<select id="findList" resultType="LaGouTags">
+		SELECT 
+			a.*
+		FROM LAGOU_TAGS a
+		ORDER BY a.CREATE_TIME DESC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO LAGOU_TAGS(
+			ID,
+            BUSINESS_ID,
+            TAG_CATEGORY,
+            TAG_DESCRIBE,
+            CREATE_ID,
+            CREATE_TIME,
+            UPDATE_ID,
+            UPDATE_TIME
+		) VALUES (
+			#{id}, 
+			#{businessId},
+            #{tagCategory},
+            #{tagDescribe},
+            #{createId},
+			#{createTime},
+            #{updateId},
+			#{updateTime}
+		)
+	</insert>
+
+    <delete id="delete">
+        delete from LAGOU_TAGS where id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from LAGOU_TAGS
+    </delete>
+
+</mapper>
