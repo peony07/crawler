@@ -6,52 +6,64 @@ import java.util.List;
  * Created by Administrator on 2016/11/13 0013.
  */
 public class PositionResult {
-    private Position position;
 
-    private String labelList;
+    private int totalCount;
 
-    private List<LableList> lableList ;
+    private StrategyProperty strategyProperty;
 
-    private String recPositionVo;
+    private QueryAnalysisInfo queryAnalysisInfo;
 
-    private String hotPositionVo;
+    private LocationInfo locationInfo;
 
-    private String positionVo;
+    private int resultSize;
 
-    public void setPosition(Position position){
-        this.position = position;
+    private List<Result> result ;
+
+    public int getTotalCount() {
+        return totalCount;
     }
-    public Position getPosition(){
-        return this.position;
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
     }
-    public void setLabelList(String labelList){
-        this.labelList = labelList;
+
+    public StrategyProperty getStrategyProperty() {
+        return strategyProperty;
     }
-    public String getLabelList(){
-        return this.labelList;
+
+    public void setStrategyProperty(StrategyProperty strategyProperty) {
+        this.strategyProperty = strategyProperty;
     }
-    public void setLableList(List<LableList> lableList){
-        this.lableList = lableList;
+
+    public QueryAnalysisInfo getQueryAnalysisInfo() {
+        return queryAnalysisInfo;
     }
-    public List<LableList> getLableList(){
-        return this.lableList;
+
+    public void setQueryAnalysisInfo(QueryAnalysisInfo queryAnalysisInfo) {
+        this.queryAnalysisInfo = queryAnalysisInfo;
     }
-    public void setRecPositionVo(String recPositionVo){
-        this.recPositionVo = recPositionVo;
+
+    public LocationInfo getLocationInfo() {
+        return locationInfo;
     }
-    public String getRecPositionVo(){
-        return this.recPositionVo;
+
+    public void setLocationInfo(LocationInfo locationInfo) {
+        this.locationInfo = locationInfo;
     }
-    public void setHotPositionVo(String hotPositionVo){
-        this.hotPositionVo = hotPositionVo;
+
+    public int getResultSize() {
+        return resultSize;
     }
-    public String getHotPositionVo(){
-        return this.hotPositionVo;
+
+    public void setResultSize(int resultSize) {
+        this.resultSize = resultSize;
     }
-    public void setPositionVo(String positionVo){
-        this.positionVo = positionVo;
+
+    public List<Result> getResult() {
+        return result;
     }
-    public String getPositionVo(){
-        return this.positionVo;
+
+    public void setResult(List<Result> result) {
+        this.result = result;
     }
 }

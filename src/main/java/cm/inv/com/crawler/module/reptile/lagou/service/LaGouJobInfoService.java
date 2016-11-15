@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 @Service
 public class LaGouJobInfoService extends CrudService<LaGouJobInfoDao, LaGouJobInfo> implements Pipeline {
 
-    Logger logger= LoggerFactory.getLogger(LaGouJobInfoService.class);
+    Logger logger = LoggerFactory.getLogger(LaGouJobInfoService.class);
 
     //创建一个可重用固定线程数的线程池
     ExecutorService pool = Executors.newSingleThreadExecutor();
@@ -49,7 +49,7 @@ public class LaGouJobInfoService extends CrudService<LaGouJobInfoDao, LaGouJobIn
 
     }
 
-    private int sleepTime=1000*10;
+    private int sleepTime = 1000 * 3;
 
     public int getSleepTime() {
         return sleepTime;
@@ -61,37 +61,41 @@ public class LaGouJobInfoService extends CrudService<LaGouJobInfoDao, LaGouJobIn
 
     @Transactional(readOnly = false)
     public void getAllJob() throws InterruptedException {
-        List<LaGouJobCategory> laGouJobCategories=laGouJobCategoryDao.findList(new LaGouJobCategory());
-        if(!StringUtils.isEmpty(laGouJobCategories)){
-            for(LaGouJobCategory laGouJobCategory:laGouJobCategories){
-                getJob(laGouJobCategory,1);
+        List<LaGouJobCategory> laGouJobCategories = laGouJobCategoryDao.findList(new LaGouJobCategory());
+        if (!StringUtils.isEmpty(laGouJobCategories)) {
+            for (LaGouJobCategory laGouJobCategory : laGouJobCategories) {
+                getJob(laGouJobCategory, 1);
             }
         }
     }
 
 
     @Transactional(readOnly = false)
-    public void getJob(LaGouJobCategory laGouJobCategory, int pageNo) throws InterruptedException {
-        String url="https://www.lagou.com/jobs/positionAjax.json?pn="+pageNo+"&kd="+laGouJobCategory.getSmallTypeName();
-        Thread.sleep(getSleepTime());
-        String result=HttpUtil.post(url);
-        if(!StringUtils.isEmpty(result)){
-            Response response= JSONObject.parseObject(result,Response.class);
-            String categoryId=laGouJobCategory.getId();
-            if(null!=response){
+    public void getJob(LaGouJobCategory laGouJobCategory, int pageNo) {
+        String url = "https://www.lagou.com/jobs/positionAjax.json?pn=" + pageNo + "&kd=" + laGouJobCategory.getSmallTypeName();
+        try {
+            Thread.sleep(getSleepTime());
+            String result = HttpUtil.post(url);
+            if (!StringUtils.isEmpty(result)) {
+                Response response = JSONObject.parseObject(result, Response.class);
+                String categoryId = laGouJobCategory.getId();
+                if (null != response) {
 
-                ResonseService resonseService= SpringContextHolder.getBean("resonseService");
-                logger.info(resonseService.toString());
-                resonseService.setResponse(response);
-                resonseService.setCategoryId(categoryId);
-                pool.execute(resonseService);
+                    ResonseService resonseService = SpringContextHolder.getBean("resonseService");
+                    logger.info(resonseService.toString());
+                    resonseService.setResponse(response);
+                    resonseService.setCategoryId(categoryId);
+                    pool.execute(resonseService);
 
-                int resultSize=response.getContent().getResultSize();
-                if(resultSize==15){
-                    getJob(laGouJobCategory,pageNo+1);
+                    int resultSize = response.getContent().getPositionResult().getResultSize();
+                    if (resultSize == 15) {
+                        getJob(laGouJobCategory, pageNo + 1);
+                    }
+
                 }
-
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

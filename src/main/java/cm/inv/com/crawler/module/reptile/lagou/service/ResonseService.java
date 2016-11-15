@@ -9,10 +9,8 @@ import cm.inv.com.crawler.module.reptile.lagou.dao.LaGouTagsDao;
 import cm.inv.com.crawler.module.reptile.lagou.entity.LaGouJobCompany;
 import cm.inv.com.crawler.module.reptile.lagou.entity.LaGouJobInfo;
 import cm.inv.com.crawler.module.reptile.lagou.entity.LaGouTags;
-import cm.inv.com.crawler.module.reptile.lagou.entity.response.LableList;
-import cm.inv.com.crawler.module.reptile.lagou.entity.response.Position;
-import cm.inv.com.crawler.module.reptile.lagou.entity.response.PositionResult;
 import cm.inv.com.crawler.module.reptile.lagou.entity.response.Response;
+import cm.inv.com.crawler.module.reptile.lagou.entity.response.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -64,10 +62,9 @@ public class ResonseService extends Thread {
 
     @Transactional(readOnly = false)
     private void saveResponse(Response response, String categoryId) {
-        List<PositionResult> list=response.getContent().getPositionResult();
+        List<Result> list=response.getContent().getPositionResult().getResult();
         if(!StringUtils.isEmpty(list)){
-            for(PositionResult positionResult:list){
-                Position position=positionResult.getPosition();
+            for(Result position:list){
                 String positionId=new Integer(position.getPositionId()).toString();
                 if(null==laGouJobInfoDao.get(positionId)) {
                     LaGouJobInfo laGouJobInfo = new LaGouJobInfo();
@@ -88,20 +85,15 @@ public class ResonseService extends Thread {
                     laGouJobInfo.setUpdateTime(new Date());
                     laGouJobInfoDao.insert(laGouJobInfo);
 
-                    List<LableList> lableLists=positionResult.getLableList();
+                    List<String> lableLists=position.getPositionLables();
                     if(!StringUtils.isEmpty(lableLists)){
-                        for(LableList lable:lableLists){
-                            String tagId=new Integer(lable.getId()).toString();
-                            if(null==laGouTagsDao.get(tagId)) {
-                                LaGouTags laGouTags=new LaGouTags();
-                                laGouTags.setBusinessId(laGouJobInfo.getId());
-                                laGouTags.setTagCategory(lable.getType());
-                                laGouTags.setTagDescribe(lable.getName());
-                                laGouTags.setId(tagId);
-                                laGouTags.setCreateTime(new Date());
-                                laGouTags.setUpdateTime(new Date());
-                                laGouTagsDao.insert(laGouTags);
-                            }
+                        for(String lable:lableLists){
+                            LaGouTags laGouTags=new LaGouTags();
+                            laGouTags.setBusinessId(laGouJobInfo.getId());
+                            laGouTags.setTagCategory("POSITION");
+                            laGouTags.setTagDescribe(lable);
+                            laGouTags.preInsert();
+                            laGouTagsDao.insert(laGouTags);
                         }
                     }
 
