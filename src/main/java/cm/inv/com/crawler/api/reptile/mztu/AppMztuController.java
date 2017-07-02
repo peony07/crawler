@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "reptile/mztu/")
 public class AppMztuController extends BaseController {
 
+
     @Autowired
     private MztuParse mztuParse;
 

@@ -35,13 +35,13 @@ public class MztuParse extends BaseImageBean implements AfterExtractor {
                 Site.me()
                         .setDomain("www.mzitu.com")
                         .setCharset("UTF-8")
-                        .setSleepTime(1000)
+                        .setSleepTime(3000)
                         .setTimeOut(30000)
                         .setUserAgent("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"),
                 new SaveImagePipeline(),
                 MztuParse.class)
                 .addUrl("http://www.mzitu.com/all")
-                .thread(100)
+                .thread(10)
                 .scheduler(new RedisScheduler(Global.getConfig("redis.host")))
                 .run();
     }

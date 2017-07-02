@@ -47,8 +47,8 @@ public class JianDanParse implements PageProcessor ,AfterExtractor {
                 //    continue;
                 //}
                 jidanDanImage.setImageId(new Html(content).xpath("//div[@class='text']/span[@class='righttext']/a/text()").toString().trim());
-                jidanDanImage.setSupport(new Html(content).xpath("//span[@id='cos_support-" + jidanDanImage.getImageId() + "']/text()").toString());
-                jidanDanImage.setUnsupport(new Html(content).xpath("//span[@id='cos_unsupport-" + jidanDanImage.getImageId() + "']/text()").toString());
+                jidanDanImage.setSupport(new Html(content).xpath("//div[@class='jandan-vote']/span[1]/text()").toString());
+                jidanDanImage.setUnsupport(new Html(content).xpath("//div[@class='jandan-vote']/span[2]/text()").toString());
                 //jidanDanImage.dsThreadCount = page.getHtml().xpath("//span[@class='time']/a/span[@class='ds-thread-count']/text()").toString().replaceAll("\\[", "").replaceAll("]", "").trim();
                 jidanDanImage.setDsThreadCount("0");
                 jidanDanImage.setTotalNum(new Integer(jidanDanImage.getSupport()) + new Integer(jidanDanImage.getUnsupport()) + new Integer(jidanDanImage.getDsThreadCount()));
